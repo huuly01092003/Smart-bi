@@ -1,0 +1,439 @@
+/* Charts Section */
+.charts-section {
+  margin-bottom: 30px;
+}
+
+/* Main charts grid - Bar + Line chart (2 cái đầu) */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* Weekly charts grid - 4 tuần (2x2 desktop, 1x1 mobile) */
+.charts-grid-weekly {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* Chart card styling */
+.chart-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #667eea;
+  transition: all 0.3s ease;
+}
+
+.chart-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.chart-card h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.chart-subtitle {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.chart-card svg {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sheet container */
+.sheet {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Info bar */
+.info-bar {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #666;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-left: 3px solid #667eea;
+}
+
+/* Filter Panel */
+.filter-panel-advanced {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-panel-advanced h3 {
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-grid-advanced {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-item label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.input:hover {
+  border-color: #667eea;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn {
+  padding: 10px 16px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn:hover:not(:disabled) {
+  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Grouped Table Wrapper */
+.table-wrapper-grouped {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.grouped-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.grouped-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Header Row 1 - Group headers (Thông tin nhân viên, Tuần 1, Tuần 2, ...) */
+.grouped-table tr.header-row-1 th {
+  padding: 12px 8px;
+  text-align: center;
+  font-weight: 700;
+  border-right: 2px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+/* Header Row 2 - Column names (Tên nhân viên, T2, T3, T4, ...) */
+.grouped-table tr.header-row-2 th {
+  padding: 10px 6px;
+  text-align: center;
+  font-weight: 600;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  min-width: 50px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.grouped-table th.base-col {
+  background: rgba(255, 255, 255, 0.1);
+  min-width: 120px;
+  text-align: left;
+  padding-left: 12px;
+}
+
+.grouped-table th.call-col {
+  background: rgba(255, 255, 255, 0.15);
+  min-width: 70px;
+}
+
+.grouped-table th.day-col {
+  background: rgba(255, 255, 255, 0.2);
+  min-width: 50px;
+}
+
+/* Table Body */
+.grouped-table tbody tr {
+  border-bottom: 1px solid #e9ecef;
+  height: 36px;
+  transition: background-color 0.2s ease;
+}
+
+.grouped-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.grouped-table tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.grouped-table td {
+  padding: 8px 6px;
+  text-align: center;
+  border-right: 1px solid #e9ecef;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  height: 36px;
+}
+
+/* Base cell - Thông tin nhân viên (Tên, Trạng thái, Giám sát, Note) */
+.grouped-table td.base-cell {
+  text-align: left;
+  background: #fafbfc;
+  font-weight: 500;
+  color: #333;
+  min-width: 120px;
+  padding-left: 12px;
+}
+
+.grouped-table tbody tr:hover td.base-cell {
+  background: #f0f4ff;
+}
+
+/* Call cell - Thực trạng hiện tại (Số Calls, Call Min, Call Max) */
+.grouped-table td.call-cell {
+  background: #fffef0;
+  font-weight: 600;
+  color: #d4a017;
+  min-width: 70px;
+}
+
+.grouped-table tbody tr:hover td.call-cell {
+  background: #fff9e6;
+}
+
+/* Day cell - Dữ liệu tuần (T2, T3, T4, ...) */
+.grouped-table td.day-cell {
+  background: white;
+  font-weight: 500;
+  color: #424242;
+  min-width: 50px;
+}
+
+.grouped-table tbody tr:hover td.day-cell {
+  background: #f0f4ff;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .charts-grid-weekly {
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .charts-grid-weekly {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  }
+
+  .chart-card {
+    padding: 16px;
+  }
+
+  .chart-card h4 {
+    font-size: 13px;
+  }
+
+  .chart-subtitle {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-grid-advanced {
+    grid-template-columns: 1fr;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .charts-grid-weekly {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card {
+    padding: 12px;
+  }
+
+  .chart-card h4 {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .chart-subtitle {
+    font-size: 10px;
+  }
+
+  .grouped-table {
+    font-size: 11px;
+  }
+
+  .grouped-table th,
+  .grouped-table td {
+    padding: 6px 4px;
+    font-size: 10px;
+  }
+
+  .grouped-table th.base-col,
+  .grouped-table td.base-cell {
+    min-width: 80px;
+    padding-left: 8px;
+  }
+
+  .grouped-table th.call-col,
+  .grouped-table td.call-cell {
+    min-width: 50px;
+  }
+
+  .grouped-table th.day-col,
+  .grouped-table td.day-cell {
+    min-width: 40px;
+  }
+
+  .filter-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Scrollbar Styling */
+.table-wrapper-grouped::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.table-wrapper-grouped::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.table-wrapper-grouped::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.table-wrapper-grouped::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Loading state */
+.chart-card.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Animation for chart transitions */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.chart-card {
+  animation: slideIn 0.3s ease-out;
+}

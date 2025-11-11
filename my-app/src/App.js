@@ -1,53 +1,112 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import axios from 'axios';
-import SheetView from './components/SheetView';
+import { useApi } from './hooks/useApi';
+import { DoanhsoSheet } from './sheets/DoanhsoSheet';
+import { DSKHSheet } from './sheets/DSKHSheet';
+import { TuyenSheet } from './sheets/TuyenSheet';
+import { ChiTietTuyenSheet } from './sheets/ChiTietTuyenSheet';
+import './App.css';
 
-function App() {
-  const [sheets, setSheets] = useState([]);
+export default function App() {
+  const [tab, setTab] = useState('chitiet');
+  const [uploadStatus, setUploadStatus] = useState(null);
+  const api = useApi();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/sheets').then(res => setSheets(res.data));
-  }, []);
+    if (api.error) {
+      setUploadStatus({ type: 'error', message: api.error });
+    }
+  }, [api.error]);
 
-  const handleUpload = (e) => {
-    const formData = new FormData();
-    formData.append('file', e.target.files[0]);
-    axios.post('http://localhost:5000/upload', formData).then(res => {
-      setSheets(res.data.sheets);
-      window.location.reload();
-    });
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      setUploadStatus({ type: 'loading', message: 'Đang upload...' });
+      const result = await api.upload(file);
+      
+      if (result?.success) {
+        setUploadStatus({ type: 'success', message: `✅ Upload thành công! ${result.sheets.join(', ')}` });
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        setUploadStatus({ type: 'error', message: '❌ Upload thất bại' });
+      }
+    } catch (e) {
+      setUploadStatus({ type: 'error', message: '❌ Lỗi upload: ' + e.message });
+    }
   };
 
   return (
-    <Router>
-      <div style={{ display: 'flex', height: '100vh' }}>
-        <nav style={{ width: '200px', background: '#f0f0f0', padding: '20px' }}>
-          <h3>Xem File Excel</h3>
-          <input type="file" accept=".xlsx" onChange={handleUpload} style={{ marginBottom: '20px' }} />
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            {sheets.map(sheet => (
-              <li key={sheet}>
-                <Link to={`/${sheet}`} style={{ display: 'block', margin: '10px 0', textDecoration: 'none' }}>
-                  {sheet}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Link to="/map" style={{ display: 'block', margin: '10px 0' }}>Bản Đồ (DSKH)</Link>
-          <a href="http://localhost:5000/download" style={{ display: 'block', margin: '10px 0' }}>Tải File Về</a>
-        </nav>
-        <main style={{ flex: 1, padding: '20px' }}>
-          <Routes>
-            {sheets.map(sheet => (
-              <Route key={sheet} path={`/${sheet}`} element={<SheetView sheetName={sheet} />} />
-            ))}
-            <Route path="/map" element={<SheetView sheetName="DSKH" view="map" />} />
-          </Routes>
-        </main>
+    <div className="app">
+      {/* Header */}
+      <header className="header">
+        <div className="header-left">
+          <h1>📊 Excel BI Dashboard</h1>
+        </div>
+        <div className="header-right">
+          <label className="btn-upload">
+            📁 Upload
+            <input type="file" accept=".xlsx" onChange={handleUpload} hidden />
+          </label>
+          <button onClick={() => api.download()} className="btn-download" title="Tải file Excel">
+            ⬇️ Download
+          </button>
+          <button onClick={() => window.location.reload()} className="btn-refresh" title="Làm mới trang">
+            🔄
+          </button>
+        </div>
+      </header>
+
+      {/* Upload Status */}
+      {uploadStatus && (
+        <div className={`status-bar ${uploadStatus.type}`} style={{
+          padding: '12px 20px',
+          textAlign: 'center',
+          fontSize: '13px',
+          fontWeight: '600',
+          backgroundColor: uploadStatus.type === 'success' ? '#d4edda' : uploadStatus.type === 'error' ? '#f8d7da' : '#e7f3ff',
+          color: uploadStatus.type === 'success' ? '#155724' : uploadStatus.type === 'error' ? '#721c24' : '#004085',
+          borderBottom: `2px solid ${uploadStatus.type === 'success' ? '#28a745' : uploadStatus.type === 'error' ? '#dc3545' : '#0066cc'}`,
+        }}>
+          {uploadStatus.message}
+        </div>
+      )}
+
+      {/* Tabs */}
+      <div className="tabs">
+        <button
+          className={`tab ${tab === 'chitiet' ? 'active' : ''}`}
+          onClick={() => setTab('chitiet')}
+        >
+          🎯 Chi tiết tuyến
+        </button>
+        <button
+          className={`tab ${tab === 'doanhso' ? 'active' : ''}`}
+          onClick={() => setTab('doanhso')}
+        >
+          💰 Doanh số
+        </button>
+        <button
+          className={`tab ${tab === 'dskh' ? 'active' : ''}`}
+          onClick={() => setTab('dskh')}
+        >
+          📋 DSKH
+        </button>
+        <button
+          className={`tab ${tab === 'tuyen' ? 'active' : ''}`}
+          onClick={() => setTab('tuyen')}
+        >
+          👥 Tuyến & NV
+        </button>
       </div>
-    </Router>
+
+      {/* Content */}
+      <div className="content">
+        {tab === 'chitiet' && <ChiTietTuyenSheet />}
+        {tab === 'doanhso' && <DoanhsoSheet />}
+        {tab === 'dskh' && <DSKHSheet />}
+        {tab === 'tuyen' && <TuyenSheet />}
+      </div>
+    </div>
   );
 }
-
-export default App;
